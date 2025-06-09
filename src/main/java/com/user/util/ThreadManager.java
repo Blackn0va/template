@@ -21,7 +21,16 @@ public class ThreadManager {
     private final AtomicInteger threadIndex = new AtomicInteger(0);
     private DiscordBot discordBot;
 
-    private ThreadManager() {}
+    // Monitore für die ThreadPools
+    private final Map<String, ThreadPoolMonitor> poolMonitors = new HashMap<>();
+    private ThreadPoolMonitor schedulerMonitor;
+
+    private ThreadManager() {
+        // Scheduler-Monitor direkt beim Start aktivieren
+        schedulerMonitor = new ThreadPoolMonitor((ThreadPoolExecutor) scheduler, 5, TimeUnit.SECONDS);
+        schedulerMonitor.start();
+        logger.info("🩺 ThreadPoolMonitor für Scheduler gestartet.");
+    }
 
     public static ThreadManager getInstance() {
         return INSTANCE;
@@ -35,6 +44,14 @@ public class ThreadManager {
         ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(poolSize);
         executors.put(groupName, executor);
         logger.info("🔧 Neue Task-Gruppe registriert: {} mit Pool-Größe: {}", groupName, poolSize);
+
+        // Starte ThreadPoolMonitor für diesen Pool, falls nicht schon vorhanden
+        if (!poolMonitors.containsKey(groupName)) {
+            ThreadPoolMonitor monitor = new ThreadPoolMonitor(executor, 5, TimeUnit.SECONDS);
+            monitor.start();
+            poolMonitors.put(groupName, monitor);
+            logger.info("🩺 ThreadPoolMonitor für '{}' gestartet.", groupName);
+        }
     }
 
     public synchronized void unregisterTaskGroup(String groupName) {
@@ -43,6 +60,13 @@ public class ThreadManager {
             ThreadPoolExecutor executor = executors.remove(groupName);
             executor.shutdown();
             logger.info("🗑️ Task-Gruppe entfernt: {}", groupName);
+
+            // Stoppe den Monitor für diesen Pool
+            ThreadPoolMonitor monitor = poolMonitors.remove(groupName);
+            if (monitor != null) {
+                monitor.stop();
+                logger.info("🛑 ThreadPoolMonitor für '{}' gestoppt.", groupName);
+            }
         }
     }
 
@@ -97,6 +121,15 @@ public class ThreadManager {
             discordBot.shutdown();
         }
         scheduler.shutdown();
+        // Stoppe alle PoolMonitore
+        for (ThreadPoolMonitor monitor : poolMonitors.values()) {
+            monitor.stop();
+        }
+        poolMonitors.clear();
+        if (schedulerMonitor != null) {
+            schedulerMonitor.stop();
+            schedulerMonitor = null;
+        }
         for (String groupName : executors.keySet()) {
             unregisterTaskGroup(groupName);
         }

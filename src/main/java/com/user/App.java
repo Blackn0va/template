@@ -16,7 +16,7 @@ public class App {
             logger.info("🧵 Thread-Management initialisiert");
 
             // Discord-Bot initialisieren
-            String discordToken = "DISCORD_TOKEN";
+            String discordToken = "DISCORD-TOKEN";
             if (discordToken == null || discordToken.isEmpty()) {
                 logger.error("❌ Kein Discord-Token gefunden! Bitte DISCORD_TOKEN Umgebungsvariable setzen");
                 System.exit(1);
