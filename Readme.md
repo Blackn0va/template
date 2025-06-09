@@ -4,14 +4,9 @@
 ![Maintainer](https://img.shields.io/badge/maintainer-Blackn0va-blue)
 [![CC-0 license](https://img.shields.io/badge/License-CC--0-blue.svg)](https://creativecommons.org/licenses/by-nd/4.0)
 
-
-## 🚀 Schnellstart
-
 ### Voraussetzungen
 - Java JDK 21 oder höher
 - Maven
-
-
 
 ### Kompilieren und Installieren
 
@@ -58,26 +53,24 @@ WantedBy=multi-user.target
 3. Service aktivieren:
 ```bash
 sudo systemctl enable template.service
-sudo systemctl start template.service
 ```
 
 ## 📋 Wichtige Befehle und Pfade
 
 ```
-╭─── 🎮 TEMPLATE JAVA ───────────────────────────────────────╮
-│                                                             │
-│ 📂 ARBEITSPFADE:                                            │
-│    • HAUPTPFAD: /root/template/live                        │
-│                                                             │
-│ 📋 SERVICE-BEFEHLE:                                         │
-│    • START:   sudo systemctl start template.service         │
-│    • STOP:    sudo systemctl stop template.service         │
-│    • RESTART: sudo systemctl restart template.service      │
-│                                                             │
-│ 📜 LOGS ANZEIGEN:                                           │
-│    • LIVE:    sudo journalctl -u template.service -f       │
-│    • HISTORY: sudo journalctl -u template.service -n 50    │
-╰─────────────────────────────────────────────────────────────╯
+╭─── 🎮 TEMPLATE JAVA ──────────────────────────────────╮
+│                                                                                                                 
+│ 📂 ARBEITSPFADE:                                          
+│    • HAUPTPFAD: /root/template/live                        
+│                                                             
+│ 📋 SERVICE-BEFEHLE:                                         
+│    • START:   sudo systemctl start template.service         
+│    • STOP:    sudo systemctl stop template.service         
+│                                                             
+│ 📜 LOGS ANZEIGEN:                                           
+│    • LIVE:    sudo journalctl -u template.service -f       
+│    • HISTORY: sudo journalctl -u template.service -n 50    
+╰────────────────────────────────────────────────────────╯
 ```
 
 ### Monitoring
