@@ -2,7 +2,7 @@
 
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Blackn0va/template/graphs/commit-activity)
 ![Maintainer](https://img.shields.io/badge/maintainer-Blackn0va-blue)
-[![CC-0 license](https://img.shields.io/badge/License-CC--0-blue.svg)](https://creativecommons.org/licenses/by-nd/4.0)
+[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://mit-license.org/)
 
 ### Voraussetzungen
 - Java JDK 21 oder höher
@@ -84,4 +84,4 @@ sudo journalctl -u template.service -f
 
 ## 📝 Lizenz
 
-Dieses Projekt steht unter der CC-0 Lizenz.
+Dieses Projekt steht unter der MIT Lizenz.
